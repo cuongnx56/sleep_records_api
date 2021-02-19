@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password@
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  app:
+    image: rails
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: sh ./bin/docker_start.sh
+    volumes:
+      - bundle_cache:/bundle
+      - .:/myapp
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    env_file:
+      - environments/docker_development.env
+    depends_on:
+      - db
+    tty: true
+    stdin_open: true
+
+volumes:
+  bundle_cache:
+  db_data:
