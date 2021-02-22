@@ -34,10 +34,26 @@ module API
         end
 
         post '/' do
-          current_user.clocks.create action: permitted_params[:action]
+          latest_clock = current_user.clocks.last
+
+          case permitted_params[:action].to_s
+          when 'go_bed'
+            if latest_clock.blank? || latest_clock.wake_up?
+              current_user.clocks.create(action: permitted_params[:action], go_bed_at: Time.zone.now)
+            else
+              latest_clock
+            end
+          when 'wake_up'
+            if latest_clock.present? && latest_clock.go_bed?
+              latest_clock.update(wake_up_at: Time.zone.now, action: permitted_params[:action])
+            end
+
+            latest_clock
+          else
+            {}
+          end
         end
       end
-
     end
   end
 end
