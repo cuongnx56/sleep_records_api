@@ -1,8 +1,8 @@
 module API
   module V1
     class Clocks < Grape::API
-      include API::Defaults
       include API::Authorization
+      include API::V1::Defaults
 
       resources :clocks do
         desc 'Get user clocked-in times',

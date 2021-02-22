@@ -11,10 +11,3 @@ if User.count.zero?
     User.create!(name: "user-name-#{n + 1}", password: '123456789')
   end
 end
-
-if Clock.count.zero?
-  100.times.each do |n|
-    user = User.all.order("RANDOM()").first
-    Clock.create user: user, action: n % 2 + 1
-  end
-end
