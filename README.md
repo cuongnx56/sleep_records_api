@@ -1,24 +1,38 @@
-# README
+# Guide to run the application
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Setup & install
 
-Things you may want to cover:
+### Clone this repository
+### Install docker & docker compose on your computer.
+### Run the project
+```
+- $ cd <project dir>
+- $ docker-compose build
+- $ docker-compose up
+```
 
-* Ruby version
+Create database first time:
 
-* System dependencies
+```
+$ docker-compose run app rake db:create
+```
 
-* Configuration
+If you meet the error compile, run the command:
 
-* Database creation
+```
+$ docker-compose run app yarn install --check-files
+```
 
-* Database initialization
+## Api Guide
 
-* How to run the test suite
+### Get user access token
 
-* Services (job queues, cache servers, search engines, etc.)
+```
+curl -X POST -d "grant_type=password&name=user-name-1&password=123456789" localhost:3000/oauth/token
+```
 
-* Deployment instructions
+### Test api endpoint at
 
-* ...
+```
+http://localhost:3000/swagger
+```
