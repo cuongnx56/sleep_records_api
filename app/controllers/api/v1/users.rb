@@ -16,6 +16,8 @@ module API
         get '/friends_sleeps' do
           friend_ids = current_user.followers.pluck(:id)
 
+          return [] if friend_ids.blank?
+
           sql = """
                   SELECT user_id, go_bed_at, wake_up_at, (wake_up_at - go_bed_at)
                   AS time_sleep, created_at FROM clocks
